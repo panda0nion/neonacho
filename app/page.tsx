@@ -8,22 +8,18 @@ import { Mail, Linkedin, FileText } from "lucide-react";
 export default function Neonacho() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-zinc-900 to-purple-900 text-white p-6 flex flex-col items-center justify-center space-y-10">
-      <motion.h1
-        className="text-5xl font-bold text-center drop-shadow-xl"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        Patrick Lee
-      </motion.h1>
-      <motion.p
-        className="text-xl text-center max-w-xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-      >
-        Crunchy on the outside. Cloud-native on the inside. DevOps Leader | SRE Advocate | Community Builder
-      </motion.p>
+
+<motion.pre
+  className="text-green-400 font-mono text-sm md:text-base leading-tight whitespace-pre-wrap text-center"
+  initial={{ opacity: 0, y: -20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}
+>
+{String.raw`
+█▄█ █▀█ █▀█ █▄░█ ▄▀█ █▀▄ █▀▀ █░█ █▀▀
+█░█ █▄█ █▄█ █░▀█ █▀█ █▄▀ ██▄ █▄█ ██▄
+`}
+</motion.pre>
       <div className="flex space-x-4">
         <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
           <Button variant="outline" className="text-white border-white hover:bg-white hover:text-black">
@@ -31,7 +27,7 @@ export default function Neonacho() {
           </Button>
         </a>
         <a href="https://www.linkedin.com/in/panda0nion" target="_blank" rel="noopener noreferrer">
-          <Button variant="outline" className="text-white border-white hover:bg-white hover:text-black">
+          <Button className="border border-white text-white hover:bg-white hover:text-black transition-colors duration-300">
             <Linkedin className="mr-2 h-4 w-4" /> LinkedIn
           </Button>
         </a>
