@@ -9,17 +9,25 @@ export default function Neonacho() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-zinc-900 to-purple-900 text-white p-6 flex flex-col items-center justify-center space-y-10">
 
-<motion.pre
-  className="text-green-400 font-mono text-sm md:text-base leading-tight whitespace-pre-wrap text-center"
-  initial={{ opacity: 0, y: -20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
->
-{String.raw`
-█▄█ █▀█ █▀█ █▄░█ ▄▀█ █▀▄ █▀▀ █░█ █▀▀
-█░█ █▄█ █▄█ █░▀█ █▀█ █▄▀ ██▄ █▄█ ██▄
-`}
-</motion.pre>
+      <motion.h1
+        className="text-green-400 font-mono text-sm md:text-base leading-tight whitespace-pre-wrap text-center"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+      {String.raw`
+      █▄█ █▀█ █▀█ █▄░█ ▄▀█ █▀▄ █▀▀ █░█ █▀▀
+      █░█ █▄█ █▄█ █░▀█ █▀█ █▄▀ ██▄ █▄█ ██▄
+      `}
+      </motion.h1>
+      <motion.p
+        className="text-xl text-center max-w-xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+      >
+        Crunchy on the outside. Cloud-native on the inside.
+      </motion.p>
       <div className="flex space-x-4">
         <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
           <Button variant="outline" className="text-white border-white hover:bg-white hover:text-black">
