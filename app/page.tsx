@@ -1,4 +1,5 @@
 'use client';
+import Badges from "./components/Badges";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -46,26 +47,6 @@ export default function Neonacho() {
         </a>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl mt-10">
-        <Card className="bg-zinc-800 border-zinc-700 hover:scale-105 transition-transform">
-          <CardContent className="p-6">
-            <h3 className="text-xl font-semibold mb-2">Super Ability Crew</h3>
-            <p>Inclusive hub supporting adults with disabilities through art, education, and connection.</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-zinc-800 border-zinc-700 hover:scale-105 transition-transform">
-          <CardContent className="p-6">
-            <h3 className="text-xl font-semibold mb-2">Jelly AI Assistant</h3>
-            <p>Always-on, voice-activated agent built with Raspberry Pi + Home Assistant + GPT.</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-zinc-800 border-zinc-700 hover:scale-105 transition-transform">
-          <CardContent className="p-6">
-            <h3 className="text-xl font-semibold mb-2">Tap Tap Friends</h3>
-            <p>Mobile app that helps users stay on schedule with reminders, AI writing help, and community access.</p>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 }

@@ -1,0 +1,20 @@
+[
+  {
+    "title": "GitHub Foundations",
+    "issuer": "GitHub",
+    "image": "https://images.credly.com/size/680x680/images/024d0122-724d-4c5a-bd83-cfe3c4b7a073/image.png",
+    "url": "https://www.credly.com/badges/75017191-a785-4a29-a094-ce1d84acb844"
+  },
+  {
+    "title": "AWS Certified Cloud Practitioner",
+    "issuer": "Amazon Web Services Training and Certification",
+    "image": "https://images.credly.com/size/680x680/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png",
+    "url": "https://www.credly.com/badges/5fb54b8c-fc1e-4aa3-a3ad-f016b4a69b87"
+  },
+  {
+    "title": "Associate Cloud Engineer Certification",
+    "issuer": "Google Cloud",
+    "image": "https://images.credly.com/size/680x680/images/08096465-cbfc-4c3e-93e5-93c5aa61f23e/image.png",
+    "url": "https://www.credly.com/badges/9d72c34a-c9f5-4553-b963-0f1a3e09c2e2"
+  }
+]
