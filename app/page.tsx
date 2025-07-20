@@ -30,17 +30,17 @@ export default function Neonacho() {
       </motion.p>
       <div className="flex space-x-4">
         <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-          <Button variant="outline" className="text-white border-white hover:bg-white hover:text-black">
+          <Button className="border border-white text-white border-white hover:bg-white hover:text-black">
             <FileText className="mr-2 h-4 w-4" /> Resume
           </Button>
         </a>
-        <a href="https://www.linkedin.com/in/panda0nion" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.linkedin.com/in/fixguy" target="_blank" rel="noopener noreferrer">
           <Button className="border border-white text-white hover:bg-white hover:text-black transition-colors duration-300">
             <Linkedin className="mr-2 h-4 w-4" /> LinkedIn
           </Button>
         </a>
         <a href="mailto:patrick@neonacho.com">
-          <Button variant="outline" className="text-white border-white hover:bg-white hover:text-black">
+          <Button className="border border-white text-white border-white hover:bg-white hover:text-black">
             <Mail className="mr-2 h-4 w-4" /> Email
           </Button>
         </a>
