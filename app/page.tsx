@@ -25,14 +25,15 @@ export default function Neonacho() {
 
   useEffect(() => {
     const fetchPosts = async () => {
+      // fetch posts from Supabase
       const { data } = await supabase
         .from("posts")
         .select("title, slug, created_at")
         .order("created_at", { ascending: false })
-        .limit(3);
+        .limit(3); // ← limit to 3
       setPosts(data || []);
     };
-    fetchPosts();
+    fetchPosts(); // Fetch posts on component mount
   }, []);
 
   return (
@@ -45,8 +46,8 @@ export default function Neonacho() {
         transition={{ duration: 0.6 }}
       >
       {String.raw`
-      █▄█ █▀█ █▀█ █▄░█ ▄▀█ █▀▄ █▀▀ █░█ █▀▀
-      █░█ █▄█ █▄█ █░▀█ █▀█ █▄▀ ██▄ █▄█ ██▄
+      █▄░█ █▀▀ █▀█ █▄░█ ▄▀█ █▀▀ █▄█ █▀█
+      █░▀█ ██▄ █▄█ █░▀█ █▀█ █▄▄ █░█ █▄█
       `}
       </motion.h1>
       <motion.p
@@ -70,7 +71,7 @@ export default function Neonacho() {
             <Linkedin className="mr-2 h-4 w-4" /> LinkedIn
           </Button>
         </a>
-        <a href="mailto:patrick@neonacho.com">
+        <a href="mailto:patricklee@neonacho.com">
           <Button className="border border-white text-white border-white hover:bg-white hover:text-black">
             <Mail className="mr-2 h-4 w-4" /> Email
           </Button>
@@ -78,19 +79,32 @@ export default function Neonacho() {
       </div>
 
       {/* Minimal Blog Previews */}
-      <div className="mt-10 w-full max-w-xl space-y-4">
+      <div className="mt-10 w-full flex flex-wrap justify-center gap-4 max-w-4xl">
         {posts.length === 0 ? (
-          <div className="text-zinc-400 text-center italic">No posts yet — check back soon 🍥</div>
+          <div className="text-zinc-400 text-center italic w-full">No posts yet — check back soon 🍥</div>
         ) : (
           posts.map((post) => (
-            <Link key={post.slug} href={`/posts/${post.slug}`}>
-              <div className="bg-zinc-800 hover:bg-zinc-700 transition rounded-xl p-4">
-                <h2 className="text-white font-semibold">{post.title}</h2>
-                <p className="text-sm text-zinc-400">{new Date(post.created_at).toLocaleDateString()}</p>
-              </div>
+            <Link
+              key={post.slug}
+              href={`/posts/${post.slug}`}
+              className="w-64 bg-zinc-800 hover:bg-zinc-700 transition rounded-xl p-4"
+            >
+              <h2 className="text-white font-semibold text-lg">{post.title}</h2>
+              <p className="text-sm text-zinc-400 mt-1">
+                {new Date(post.created_at).toLocaleDateString()}
+              </p>
             </Link>
           ))
         )}
+      </div>
+
+      {/* View All Button */}
+      <div className="mt-6 text-center">
+        <Link href="/posts">
+          <button className="text-white px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-black transition">
+            View All Posts →
+          </button>
+        </Link>
       </div>
     </div>
   );
