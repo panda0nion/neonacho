@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Trigger local n8n Jelly AI Curator 🧠
         run: |
-          curl -X POST https://315e2c9650cf.ngrok-free.app/webhook/reddit-curator \
+          curl -X POST https://315e2c9650cf.ngrok-free.app/webhook-test/reddit-curator \
             -H "Content-Type: application/json" \
             -d '{"trigger": "github-action"}'
 
