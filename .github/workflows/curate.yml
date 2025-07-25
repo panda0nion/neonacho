@@ -1,0 +1,15 @@
+name: Auto-Curate Workflow
+
+on:
+  workflow_dispatch:  # Manual trigger from GitHub UI
+
+jobs:
+  curate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Hello from Jelly 🧠
+        run: echo "Let’s curate some knowledge!"
+
