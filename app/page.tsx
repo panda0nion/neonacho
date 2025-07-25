@@ -61,7 +61,7 @@ export default function Neonacho() {
 
       {/* Action Buttons */}
       <div className="flex space-x-4">
-        <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+        <a href="/PatrickLee_Resume.pdf" target="_blank" rel="noopener noreferrer">
           <Button className="border border-white text-white border-white hover:bg-white hover:text-black">
             <FileText className="mr-2 h-4 w-4" /> Resume
           </Button>
