@@ -1,6 +1,8 @@
 // app/posts/page.tsx
-import Link from "next/link";
+'use client';
+import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
+import Link from "next/link";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
