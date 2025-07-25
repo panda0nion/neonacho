@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Say hi from Jelly 🧠
-        run: echo "Let’s curate some knowledge!"
+      - name: Trigger local n8n Jelly AI Curator 🧠
+        run: |
+          curl -X POST https://315e2c9650cf.ngrok-free.app/webhook/reddit-curator \
+            -H "Content-Type: application/json" \
+            -d '{"trigger": "github-action"}'
