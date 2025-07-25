@@ -1,0 +1,152 @@
+# Create a basic JSON workflow file for reddit-highlight.n8n.json to represent the full curation pipeline
+import json
+
+workflow = {
+    "name": "Reddit Highlight Curation",
+    "nodes": [
+        {
+            "parameters": {
+                "url": "https://www.reddit.com/r/technology+ArtificialIntelligence+Futurology/top.json?limit=20",
+                "responseFormat": "json",
+                "jsonParameters": True
+            },
+            "id": "1",
+            "name": "Fetch Reddit Posts",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 1,
+            "position": [200, 300]
+        },
+        {
+            "parameters": {
+                "functionCode": """
+const posts = $json.data.children.map(child => {
+  const post = child.data;
+  const createdUtc = new Date(post.created_utc * 1000);
+  const now = new Date();
+  const hoursSince = (now - createdUtc) / (1000 * 60 * 60);
+
+  return {
+    title: post.title,
+    selftext: post.selftext || "",
+    ups: post.ups,
+    num_comments: post.num_comments,
+    subreddit: post.subreddit,
+    created_utc: post.created_utc,
+    hours_since_posted: parseFloat(hoursSince.toFixed(2))
+  };
+});
+
+return posts.map(p => ({ json: p }));
+"""
+            },
+            "id": "2",
+            "name": "Prepare Posts",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [400, 300]
+        },
+        {
+            "parameters": {
+                "model": "gpt-4",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a content curator. Given a Reddit post, tag it with a theme and calculate a highlight score."
+                    },
+                    {
+                        "role": "user",
+                        "content": """Post details:
+
+Title: {{ $json["title"] }}
+Body: {{ $json["selftext"] }}
+Upvotes: {{ $json["ups"] }}
+Comments: {{ $json["num_comments"] }}
+Hours Since Posted: {{ $json["hours_since_posted"] }}
+
+Assign one of these themes: "curiosity", "practical", or "future"
+
+Then calculate the score using:
+
+score = (upvotes * 0.6) + (comments * 0.2) + ((1 / hours_since_posted) * 100) * 0.2
+
+Return ONLY this JSON:
+
+{
+  "theme": "curiosity",
+  "score": 187.4
+}"""
+                    }
+                ],
+                "temperature": 0.3,
+                "outputAsJson": True
+            },
+            "id": "3",
+            "name": "Tag + Score with GPT",
+            "type": "n8n-nodes-langchain.openai.text",
+            "typeVersion": 1,
+            "position": [600, 300]
+        },
+        {
+            "parameters": {
+                "functionCode": """
+const topByTheme = {
+  curiosity: null,
+  practical: null,
+  future: null,
+};
+
+const usedIndexes = new Set();
+
+for (let i = 0; i < items.length; i++) {
+  const item = items[i];
+  const { theme, score } = item.json;
+
+  if (!topByTheme[theme] || score > topByTheme[theme].json.score) {
+    topByTheme[theme] = item;
+    usedIndexes.add(i);
+  }
+}
+
+const result = Object.values(topByTheme).filter(Boolean);
+
+if (result.length < 3) {
+  const fallbackItems = items
+    .map((item, index) => ({ item, index }))
+    .filter(({ index }) => !usedIndexes.has(index))
+    .sort((a, b) => b.item.json.score - a.item.json.score);
+
+  for (const { item } of fallbackItems) {
+    if (result.length < 3) result.push(item);
+    else break;
+  }
+}
+
+return result;
+"""
+            },
+            "id": "4",
+            "name": "Pick Top 3 Highlights",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [800, 300]
+        }
+    ],
+    "connections": {
+        "Fetch Reddit Posts": {
+            "main": [["Prepare Posts"]]
+        },
+        "Prepare Posts": {
+            "main": [["Tag + Score with GPT"]]
+        },
+        "Tag + Score with GPT": {
+            "main": [["Pick Top 3 Highlights"]]
+        }
+    }
+}
+
+# Save it to a JSON file
+workflow_path = "/mnt/data/reddit-highlight.n8n.json"
+with open(workflow_path, "w") as f:
+    json.dump(workflow, f, indent=2)
+
+workflow_path  # Return for download link
