@@ -1,54 +1,41 @@
 // app/api/posts/route.js
 import { supabase } from "@/lib/supabase";
 
-// Utility to clean up slugs from titles
-function cleanSlug(title) {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "") // Remove special characters
-    .replace(/\s+/g, "-")         // Replace spaces with dashes
-    .replace(/^-+|-+$/g, "");     // Trim leading/trailing dashes
-}
+const cleanSlug = s =>
+  s.toLowerCase().replace(/[^a-z0-9\s-]/g, "").trim().replace(/\s+/g, "-");
 
 export async function POST(request) {
   try {
-    const body = await request.json();
-    const { title, content, excerpt, tags, coverUrl, publishedAt } = body;
+    const body = await request.json(); // expects JSON
+    const { title, content, excerpt, permalink, coverUrl, publishedAt, tags } = body;
 
-    const slug = cleanSlug(title);
+    const payload = {
+      title,
+      slug: cleanSlug(title),
+      content,
+      excerpt: excerpt ?? null,
+      permalink: permalink ?? null,        // 👈 now persisted
+      published_at: publishedAt ?? new Date().toISOString(),
+      tags: Array.isArray(tags) ? tags : []
+    };
+
+    if (typeof coverUrl !== "undefined") payload.cover_url = coverUrl; // 👈 conditional
 
     const { data, error } = await supabase
       .from("posts")
-      .upsert(
-        {
-          title,
-          slug,
-          content,
-          excerpt: excerpt ?? null,
-          tags: tags ?? [],
-          cover_url: coverUrl ?? null,
-          published_at: publishedAt ?? new Date().toISOString()
-        },
-        { onConflict: "slug" } // 👈 important: use slug to avoid duplicate error
-      )
+      .upsert(payload, { onConflict: "slug" })
       .select()
       .single();
 
-    if (error) {
-      console.error("❌ Supabase upsert error:", error);
-      return new Response(JSON.stringify({ ok: false, error: error.message }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" }
-      });
-    }
+    if (error) throw error;
 
     return new Response(JSON.stringify({ ok: true, post: data }), {
       status: 200,
       headers: { "Content-Type": "application/json" }
     });
   } catch (err) {
-    console.error("❌ Unexpected error in /api/posts:", err);
-    return new Response(JSON.stringify({ ok: false, error: err.message }), {
+    console.error("POST /api/posts error:", err);
+    return new Response(JSON.stringify({ ok: false, error: String(err.message || err) }), {
       status: 500,
       headers: { "Content-Type": "application/json" }
     });
